@@ -1,8 +1,11 @@
+// target date of the event
 const EVENT_DATE_STR = "August 10, 2024 13:00:13";
 // meh, quick and dirty
 const SEPERATOR_ELEMENT_HTML_STR = `<span class="seperator">:</span>`;
 
+// is the element curretly visible
 let isVisible = true;
+// should use the red class
 let showRed = false;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -42,16 +45,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const sepElementsArr = Array.from(SEPERATOR_ELEMENTS);
 
     // invoked when isVisible
-    function addClasses() {
+    function toggleClassesWhenVisible() {
       sepElementsArr.forEach((el) => {
-        el.classList.remove("invisible");
-        showRed ? el.classList.add("loudRed") : el.classList.remove("loudRed");
+        el.classList.remove("invisible"); // show on next invocation
+        showRed ? el.classList.add("loudRed") : el.classList.remove("loudRed"); // toggle the color
       });
       showRed = !showRed;
     }
 
     isVisible
-      ? addClasses()
+      ? toggleClassesWhenVisible()
       : sepElementsArr.forEach((el) => {
           el.classList.add("invisible");
         });
