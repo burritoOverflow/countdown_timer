@@ -13,10 +13,14 @@ let showRed = false;
 wait waitDurationMs before applying adding each character in textContent as a new
 element to textElement
 */
-function makeTypewriterFunction(waitDurationMs, textElement, textContent) {
+function makeTypewriterFunction(
+  waitDurationMs,
+  textElement,
+  textContent,
+  timeBetweenCharacters = 100 /* ms */
+) {
   // closed over below
   let index = 0;
-  const timeBetweenCharacters = 100; // ms
 
   return async function () {
     await new Promise((resolve) => setTimeout(resolve, waitDurationMs));
@@ -46,8 +50,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   const eventStr = `Event date: ${EVENT_DATE_STR}`;
 
   // this is hardcoded to the same duration as the fade-in effect
-  const doTypewriter = makeTypewriterFunction(1200, eventElement, eventStr);
-  await doTypewriter();
+  await makeTypewriterFunction(1200, eventElement, eventStr)();
+  await makeTypewriterFunction(
+    755,
+    document.getElementById("remaining"),
+    "Time Remaining:",
+    55
+  )();
 
   /*
   Set the countdown element's html to the remaining duration; return
@@ -69,10 +78,23 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // run on DOM load to avoid waiting until the initial interval to display countdown
-  countdownElement.classList.add("borderedElement");
   setCountdownText();
 
   const interval = setInterval(function () {
+    const initClassesCountdownEl = (() => {
+      let hasRunInit = false;
+
+      return function () {
+        if (!hasRunInit) {
+          hasRunInit = true;
+          countdownElement.classList.add(
+            "borderedElement",
+            "gradientBackground"
+          );
+        }
+      };
+    })();
+
     if (setCountdownText() < 0) {
       clearInterval(interval);
       countdownElement.innerText = "Time's up";

@@ -12,9 +12,11 @@ html {
 
 @keyframes fadeInTop {
   from {
+    background-color: rgb(32, 30, 30);
     transform: translate(-120px, -700px);
   }
   to {
+    background-color: black;
     opacity: 0.89;
     transform: translate(0, 0);
     margin: 0;
@@ -39,7 +41,7 @@ html {
 #main {
   animation: fadeInTop 1.5s forwards;
   border-radius: 1em;
-  border: 3px solid red;
+  border: 1px solid red;
   box-shadow: -17px 12px 20px rgba(255, 0, 0, 0.5);
   padding: 20px;
   margin: 200px;
@@ -56,9 +58,19 @@ html {
   opacity: 0.25 !important; /* meh */
 }
 
+.gradientBackground {
+  background: linear-gradient(
+    to right,
+    rgba(255, 0, 0, 0.15),
+    rgba(18, 17, 17, 0.15)
+  );
+  box-shadow: -4px 3px 11px rgba(136, 36, 36, 0.5);
+}
+
 #countdown {
   border-radius: 15px;
   font-size: 68px;
+  color: rgb(228, 223, 217);
   font-weight: bolder;
   text-align: center;
   padding: 10%;
@@ -88,6 +100,6 @@ html {
 }
 
 .loudRed {
-  color: red;
+  color: rgba(255, 0, 0, 0.75);
   font-weight: bold;
 }
