@@ -1,4 +1,4 @@
-const EVENT_DATE_STR = "August 10, 2024 15:00:12";
+const EVENT_DATE_STR = "August 10, 2024 13:00:13";
 
 document.addEventListener("DOMContentLoaded", function () {
   const eventDate = new Date(EVENT_DATE_STR).getTime();
