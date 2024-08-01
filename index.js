@@ -1,7 +1,9 @@
 const EVENT_DATE_STR = "August 10, 2024 13:00:13";
+// meh, quick and dirty
 const SEPERATOR_ELEMENT_HTML_STR = `<span class="seperator">:</span>`;
 
 let isVisible = true;
+let showRed = false;
 
 document.addEventListener("DOMContentLoaded", function () {
   const SEPERATOR_ELEMENTS = document.getElementsByClassName("seperator");
@@ -36,14 +38,24 @@ document.addEventListener("DOMContentLoaded", function () {
       countdownElement.innerText = "Time's up";
     }
 
+    // blink the seperator ':' on each invocation of this interval
     const sepElementsArr = Array.from(SEPERATOR_ELEMENTS);
+
+    // invoked when isVisible
+    function addClasses() {
+      sepElementsArr.forEach((el) => {
+        el.classList.remove("invisible");
+        showRed ? el.classList.add("loudRed") : el.classList.remove("loudRed");
+      });
+      showRed = !showRed;
+    }
+
     isVisible
-      ? sepElementsArr.forEach((el) => {
-          el.classList.add("invisible");
-        })
+      ? addClasses()
       : sepElementsArr.forEach((el) => {
-          el.classList.remove("invisible");
+          el.classList.add("invisible");
         });
+
     isVisible = !isVisible;
   }, 1000);
 });

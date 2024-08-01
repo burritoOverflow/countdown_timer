@@ -10,12 +10,23 @@ html {
   color: white;
 }
 
+@keyframes fadeInTop {
+  to {
+    opacity: 0.89;
+    transform: translateY(0);
+  }
+}
+
 #main {
+  animation: fadeInTop 1.5s forwards;
+  border-radius: 1em;
+  border: 3px solid red;
   box-shadow: -17px 12px 20px rgba(255, 0, 0, 0.5);
+  opacity: 0;
   padding: 20px;
-  border: 1px solid red;
-  width: 80%;
+  transform: translateY(-100px);
   transition-duration: 1500ms;
+  width: 80%;
 }
 
 #main:hover {
@@ -42,4 +53,9 @@ html {
 
 .invisible {
   opacity: 0;
+}
+
+.loudRed {
+  color: red;
+  font-weight: bold;
 }
