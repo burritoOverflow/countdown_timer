@@ -1,6 +1,11 @@
 const EVENT_DATE_STR = "August 10, 2024 13:00:13";
+const SEPERATOR_ELEMENT_HTML_STR = `<span class="seperator">:</span>`;
+
+let isVisible = true;
 
 document.addEventListener("DOMContentLoaded", function () {
+  const SEPERATOR_ELEMENTS = document.getElementsByClassName("seperator");
+
   const eventDate = new Date(EVENT_DATE_STR).getTime();
   const countdownElement = document.getElementById("countdown");
   document.getElementById(
@@ -18,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
-    countdownElement.innerText = `${days} Days, ${hours} hours ${minutes} minutes ${seconds} seconds`;
+    countdownElement.innerHTML = `${days} Days ${hours}${SEPERATOR_ELEMENT_HTML_STR}${minutes}${SEPERATOR_ELEMENT_HTML_STR}${seconds}`;
     return remaining;
   }
 
@@ -30,5 +35,15 @@ document.addEventListener("DOMContentLoaded", function () {
       clearInterval(interval);
       countdownElement.innerText = "Time's up";
     }
+
+    const sepElementsArr = Array.from(SEPERATOR_ELEMENTS);
+    isVisible
+      ? sepElementsArr.forEach((el) => {
+          el.classList.add("invisible");
+        })
+      : sepElementsArr.forEach((el) => {
+          el.classList.remove("invisible");
+        });
+    isVisible = !isVisible;
   }, 1000);
 });
