@@ -1,0 +1,37 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+#main {
+  box-shadow: -17px 12px 20px rgba(255, 0, 0, 0.5); 
+  padding: 20px;
+  border: 1px solid red;
+  width: 75%;
+  transition-duration: 1500ms;
+}
+
+#main:hover {
+  transform: translate(50px, -25px);
+  box-shadow: -22px 40px 55px rgba(255, 0, 0, 1.0); 
+  opacity: 0.25;
+}
+
+#countdown {
+  font-size: 72px;
+  font-weight: bolder;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#eventdate {
+  font-size: xx-large;
+  font-weight: bolder;
+}
