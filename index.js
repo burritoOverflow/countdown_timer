@@ -8,14 +8,37 @@ let isVisible = true;
 // should use the red class
 let showRed = false;
 
+// closed over below
+let index = 0;
+
+function doTypewriter(ms, textElement, textContent) {
+  return new Promise((resolve) => setTimeout(resolve, ms)).then(() => {
+    (function typewriterEffect(textElement, textContent) {
+      if (index < textContent.length) {
+        const spanChild = document.createElement("span");
+        spanChild.classList.add("messageChar");
+        spanChild.textContent = textContent.charAt(index);
+        textElement.appendChild(spanChild);
+        index++;
+        setTimeout(() => {
+          typewriterEffect(textElement, textContent);
+        }, 100);
+      }
+    })(textElement, textContent);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const SEPERATOR_ELEMENTS = document.getElementsByClassName("seperator");
 
   const eventDate = new Date(EVENT_DATE_STR).getTime();
   const countdownElement = document.getElementById("countdown");
-  document.getElementById(
-    "eventdate"
-  ).innerText = `Event date: ${EVENT_DATE_STR}`;
+
+  const eventElement = document.getElementById("eventdate");
+  const eventStr = `Event date: ${EVENT_DATE_STR}`;
+
+  // this is hardcoded to the same duration as the fade-in effect
+  doTypewriter(1500, eventElement, eventStr);
 
   function setCountdownText() {
     const now = new Date().getTime();

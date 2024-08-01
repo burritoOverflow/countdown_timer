@@ -14,6 +14,22 @@ html {
   to {
     opacity: 0.89;
     transform: translateY(0);
+    margin: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    color: red;
+    opacity: 0.55;
+    font-weight: 100;
+    filter: blur(15px); 
+  }
+  to {
+    color: white;
+    opacity: 1;
+    font-weight: bolder;
+    filter: blur(0px); 
   }
 }
 
@@ -24,9 +40,14 @@ html {
   box-shadow: -17px 12px 20px rgba(255, 0, 0, 0.5);
   opacity: 0.33;
   padding: 20px;
+  margin: 200px;
   transform: translateY(-700px);
   transition-duration: 1500ms;
   width: 80%;
+}
+
+.messageChar {
+  animation: fadeIn 500ms forwards;
 }
 
 #main:hover {
