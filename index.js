@@ -1,5 +1,6 @@
 // target date of the event
 const EVENT_DATE_STR = "August 10, 2024 13:00:13";
+
 // meh, quick and dirty
 const SEPERATOR_ELEMENT_HTML_STR = `<span class="seperator">:</span>`;
 
@@ -8,11 +9,17 @@ let isVisible = true;
 // should use the red class
 let showRed = false;
 
-// closed over below
-let index = 0;
+/*
+wait waitDurationMs before applying adding each character in textContent as a new
+element to textElement
+*/
+function makeTypewriterFunction(waitDurationMs, textElement, textContent) {
+  // closed over below
+  let index = 0;
+  const timeBetweenCharacters = 100; // ms
 
-function doTypewriter(ms, textElement, textContent) {
-  return new Promise((resolve) => setTimeout(resolve, ms)).then(() => {
+  return async function () {
+    await new Promise((resolve) => setTimeout(resolve, waitDurationMs));
     (function typewriterEffect(textElement, textContent) {
       if (index < textContent.length) {
         const spanChild = document.createElement("span");
@@ -20,15 +27,16 @@ function doTypewriter(ms, textElement, textContent) {
         spanChild.textContent = textContent.charAt(index);
         textElement.appendChild(spanChild);
         index++;
+
         setTimeout(() => {
           typewriterEffect(textElement, textContent);
-        }, 100);
+        }, timeBetweenCharacters);
       }
     })(textElement, textContent);
-  });
+  };
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const SEPERATOR_ELEMENTS = document.getElementsByClassName("seperator");
 
   const eventDate = new Date(EVENT_DATE_STR).getTime();
@@ -38,8 +46,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const eventStr = `Event date: ${EVENT_DATE_STR}`;
 
   // this is hardcoded to the same duration as the fade-in effect
-  doTypewriter(1500, eventElement, eventStr);
+  const doTypewriter = makeTypewriterFunction(1200, eventElement, eventStr);
+  await doTypewriter();
 
+  /*
+  Set the countdown element's html to the remaining duration; return
+  the remaining time from now until the target date
+  */
   function setCountdownText() {
     const now = new Date().getTime();
 
