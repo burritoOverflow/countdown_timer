@@ -57,10 +57,21 @@ html {
 }
 
 #countdown {
+  border-radius: 15px;
   font-size: 68px;
   font-weight: bolder;
-  border-radius: 5px;
   text-align: center;
+  padding: 10%;
+}
+
+.borderedElement {
+  border: 1px solid white;
+  background-color: rgb(18, 17, 17);
+}
+
+.redBorderedElement {
+  border: 1px solid red;
+  background-color: rgb(18, 17, 17);
 }
 
 #eventdate {

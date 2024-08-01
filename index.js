@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // run on DOM load to avoid waiting until the initial interval to display countdown
+  countdownElement.classList.add("borderedElement");
   setCountdownText();
 
   const interval = setInterval(function () {
@@ -86,6 +87,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         el.classList.remove("invisible"); // show on next invocation
         showRed ? el.classList.add("loudRed") : el.classList.remove("loudRed"); // toggle the color
       });
+      if (showRed) {
+        countdownElement.classList.remove("borderedElement");
+        countdownElement.classList.add("redBorderedElement");
+      } else {
+        countdownElement.classList.add("borderedElement");
+        countdownElement.classList.remove("redBorderedElement");
+      }
       showRed = !showRed;
     }
 
@@ -93,6 +101,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       ? toggleClassesWhenVisible()
       : sepElementsArr.forEach((el) => {
           el.classList.add("invisible");
+          countdownElement.className = "";
         });
 
     isVisible = !isVisible;
