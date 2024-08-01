@@ -22,9 +22,9 @@ html {
   border-radius: 1em;
   border: 3px solid red;
   box-shadow: -17px 12px 20px rgba(255, 0, 0, 0.5);
-  opacity: 0;
+  opacity: 0.33;
   padding: 20px;
-  transform: translateY(-100px);
+  transform: translateY(-700px);
   transition-duration: 1500ms;
   width: 80%;
 }
