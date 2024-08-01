@@ -11,9 +11,12 @@ html {
 }
 
 @keyframes fadeInTop {
+  from {
+    transform: translate(-120px, -700px);
+  }
   to {
     opacity: 0.89;
-    transform: translateY(0);
+    transform: translate(0, 0);
     margin: 0;
   }
 }
@@ -23,25 +26,23 @@ html {
     color: red;
     opacity: 0.55;
     font-weight: 100;
-    filter: blur(15px); 
+    filter: blur(15px);
   }
   to {
     color: white;
     opacity: 1;
     font-weight: bolder;
-    filter: blur(0px); 
+    filter: blur(0px);
   }
 }
 
 #main {
-  animation: fadeInTop 1.5s forwards;
+  animation: fadeInTop 1.3s forwards;
   border-radius: 1em;
   border: 3px solid red;
   box-shadow: -17px 12px 20px rgba(255, 0, 0, 0.5);
-  opacity: 0.33;
   padding: 20px;
   margin: 200px;
-  transform: translateY(-700px);
   transition-duration: 1500ms;
   width: 80%;
 }
@@ -51,9 +52,8 @@ html {
 }
 
 #main:hover {
-  transform: translate(50px, -25px);
   box-shadow: -22px 40px 55px rgba(255, 0, 0, 1);
-  opacity: 0.25;
+  opacity: 0.25 !important; /* meh */
 }
 
 #countdown {
