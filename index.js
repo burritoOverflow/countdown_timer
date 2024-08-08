@@ -80,27 +80,30 @@ element to textElement
     };
   }
 
+  function setClipboardToDuration() {
+    const { days, hours, minutes, seconds } = getDurationRemaining();
+    const contents = getCountdownDurationStr(days, hours, minutes, seconds);
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(contents).then(
+        function () {},
+        function (err) {
+          console.error("Could not copy text: ", err);
+        }
+      );
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", async function () {
-    const SEPERATOR_ELEMENTS = document.getElementsByClassName("seperator");
-
+    const seperatorElements = document.getElementsByClassName("seperator");
     const countdownElement = document.getElementById("countdown");
-
     const eventElement = document.getElementById("eventdate");
+
+    const mainDiv = document.getElementById("main");
+    mainDiv.addEventListener("click", setClipboardToDuration);
+    mainDiv.addEventListener("touchend", setClipboardToDuration);
+
     const eventStr = `Event date: ${EVENT_DATE_STR}`;
-
-    document.getElementById("main").addEventListener("click", function () {
-      const { days, hours, minutes, seconds } = getDurationRemaining();
-      const contents = getCountdownDurationStr(days, hours, minutes, seconds);
-
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(contents).then(
-          function () {},
-          function (err) {
-            console.error("Could not copy text: ", err);
-          }
-        );
-      }
-    });
 
     // this is hardcoded to the same duration as the fade-in effect
     await makeTypewriterFunction(1200, eventElement, eventStr)();
@@ -145,7 +148,7 @@ element to textElement
       }
 
       // blink the seperator ':' on each invocation of this interval
-      const sepElementsArr = Array.from(SEPERATOR_ELEMENTS);
+      const sepElementsArr = Array.from(seperatorElements);
 
       // invoked when isVisible
       function toggleClassesWhenVisible() {
