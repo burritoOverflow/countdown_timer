@@ -1,6 +1,7 @@
 (function () {
   // target date of the event
   const EVENT_DATE_STR = "August 10, 2024 13:00:13";
+  const EVENT_DATE = new Date(EVENT_DATE_STR).getTime();
 
   // meh, quick and dirty
   const SEPERATOR_ELEMENT_HTML_STR = `<span class="seperator">:</span>`;
@@ -41,14 +42,65 @@ element to textElement
     };
   }
 
+  function getCountdownDurationStr(days, hours, minutes, seconds) {
+    let outStr = "";
+
+    if (days !== 0) {
+      outStr += `${days} Days `;
+    }
+    if (hours !== 0) {
+      outStr += `${hours} Hours `;
+    }
+    if (minutes !== 0) {
+      outStr += `${minutes} Minutes `;
+    }
+    if (seconds !== 0) {
+      outStr += `${seconds} Seconds`;
+    }
+
+    return outStr;
+  }
+
+  function getDurationRemaining() {
+    const now = new Date().getTime();
+    const remaining = EVENT_DATE - now;
+
+    const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+    return {
+      days,
+      hours,
+      minutes,
+      seconds,
+    };
+  }
+
   document.addEventListener("DOMContentLoaded", async function () {
     const SEPERATOR_ELEMENTS = document.getElementsByClassName("seperator");
 
-    const eventDate = new Date(EVENT_DATE_STR).getTime();
     const countdownElement = document.getElementById("countdown");
 
     const eventElement = document.getElementById("eventdate");
     const eventStr = `Event date: ${EVENT_DATE_STR}`;
+
+    document.getElementById("main").addEventListener("click", function () {
+      const { days, hours, minutes, seconds } = getDurationRemaining();
+      const contents = getCountdownDurationStr(days, hours, minutes, seconds);
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(contents).then(
+          function () {},
+          function (err) {
+            console.error("Could not copy text: ", err);
+          }
+        );
+      }
+    });
 
     // this is hardcoded to the same duration as the fade-in effect
     await makeTypewriterFunction(1200, eventElement, eventStr)();
@@ -64,16 +116,7 @@ element to textElement
   the remaining time from now until the target date
   */
     function setCountdownText() {
-      const now = new Date().getTime();
-
-      const remaining = eventDate - now;
-      const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-
+      const { days, hours, minutes, seconds } = getDurationRemaining();
       countdownElement.innerHTML = `${days} Days ${hours}${SEPERATOR_ELEMENT_HTML_STR}${minutes}${SEPERATOR_ELEMENT_HTML_STR}${seconds}`;
       return remaining;
     }
