@@ -85,12 +85,9 @@ element to textElement
     const contents = getCountdownDurationStr(days, hours, minutes, seconds);
 
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(contents).then(
-        function () {},
-        function (err) {
-          console.error("Could not copy text: ", err);
-        }
-      );
+      navigator.clipboard.writeText(contents).then(null, function (err) {
+        console.error("Could not copy text: ", err);
+      });
     }
   }
 
