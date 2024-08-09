@@ -77,6 +77,7 @@ element to textElement
       hours,
       minutes,
       seconds,
+      remaining,
     };
   }
 
@@ -116,8 +117,29 @@ element to textElement
   the remaining time from now until the target date
   */
     function setCountdownText() {
-      const { days, hours, minutes, seconds } = getDurationRemaining();
-      countdownElement.innerHTML = `${days} Days ${hours}${SEPERATOR_ELEMENT_HTML_STR}${minutes}${SEPERATOR_ELEMENT_HTML_STR}${seconds}`;
+      const { days, hours, minutes, seconds, remaining } =
+        getDurationRemaining();
+      let outStr = "";
+
+      if (days > 0) {
+        const daysStr = days === 1 ? "Day" : "Days";
+        outStr += `${days} ${daysStr} `;
+      }
+
+      if (hours > 0) {
+        outStr += `${hours}${SEPERATOR_ELEMENT_HTML_STR}${minutes}${SEPERATOR_ELEMENT_HTML_STR}${seconds}`;
+      } else {
+        // less than one hour; only trim mins/seconds here
+        if (minutes > 0) {
+          outStr += `${minutes}${SEPERATOR_ELEMENT_HTML_STR}`;
+        }
+
+        if (seconds > 0) {
+          outStr += `${seconds}`;
+        }
+      }
+
+      countdownElement.innerHTML = outStr;
       return remaining;
     }
 
@@ -125,7 +147,7 @@ element to textElement
     setCountdownText();
 
     const interval = setInterval(function () {
-      const initClassesCountdownEl = (() => {
+      (() => {
         let hasRunInit = false;
 
         return function () {
